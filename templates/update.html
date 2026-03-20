@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Student</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="center">
+    <div class="card">
+        <h2>Update Marks</h2>
+
+        <form method="POST">
+            <input type="number" name="s1" value="{{ student[2] }}" required>
+            <input type="number" name="s2" value="{{ student[3] }}" required>
+            <input type="number" name="s3" value="{{ student[4] }}" required>
+
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

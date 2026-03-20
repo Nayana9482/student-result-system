@@ -1,0 +1,98 @@
+/* ---------- BODY ---------- */
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- CENTER ALIGN ---------- */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* ---------- CARD (LOGIN / FORMS) ---------- */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 300px;
+}
+
+/* ---------- INPUT FIELDS ---------- */
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* ---------- BUTTON ---------- */
+button {
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* ---------- LINKS ---------- */
+a {
+    text-decoration: none;
+    margin: 10px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+/* ---------- TABLE ---------- */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+th {
+    background: #007bff;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+tr:hover {
+    background: #f1f1f1;
+}
+
+/* ---------- HEADINGS ---------- */
+h2 {
+    text-align: center;
+}
+
+/* ---------- CHART ---------- */
+canvas {
+    display: block;
+    margin: 20px auto;
+    max-width: 600px;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Topper</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="center">
+
+<div class="card">
+    <h2>🏆 Topper</h2>
+
+    {% if topper %}
+        <p><strong>Name:</strong> {{ topper[1] }}</p>
+        <p><strong>Percentage:</strong> {{ topper[6] }}</p>
+        <p><strong>Grade:</strong> {{ topper[7] }}</p>
+    {% else %}
+        <p>No data available</p>
+    {% endif %}
+
+    <br>
+    <a href="/">⬅ Back</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h2 style="text-align:center;">Student Dashboard</h2>
+
+<div style="text-align:center;">
+    <a href="/add">➕ Add</a>
+    <a href="/export">📥 Export</a>
+    <a href="/topper">🏆 Topper</a>
+    <a href="/logout">🚪 Logout</a>
+</div>
+
+<br>
+
+<form method="POST" style="text-align:center;">
+    <input type="text" name="search" placeholder="Search student">
+    <button type="submit">Search</button>
+</form>
+
+<br>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Percentage</th>
+        <th>Grade</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for s in students %}
+    <tr>
+        <td>{{ s[0] }}</td>
+        <td>{{ s[1] }}</td>
+        <td>{{ s[6] }}</td>
+        <td>{{ s[7] }}</td>
+        <td>
+            <a href="/update/{{ s[0] }}">Edit</a>
+            <a href="/delete/{{ s[0] }}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+
+<canvas id="chart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+fetch('/chart-data')
+.then(res => res.json())
+.then(data => {
+    new Chart(document.getElementById('chart'), {
+        type: 'bar',
+        data: {
+            labels: data.names,
+            datasets: [{
+                label: 'Student Percentage',
+                data: data.percentages
+            }]
+        }
+    });
+});
+</script>
+
+</body>
+</html>
