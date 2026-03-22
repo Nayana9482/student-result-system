@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, make_response, jsonify
 import sqlite3
 import csv
+import bcrypt
 
 app = Flask(__name__)
 app.secret_key = "my_super_secure_key_2026"
@@ -14,6 +15,7 @@ def init_db():
     conn = connect()
     cursor = conn.cursor()
 
+    # Students table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS students (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,9 +29,35 @@ def init_db():
     )
     """)
 
+    # Users table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE,
+        password TEXT
+    )
+    """)
+
     conn.commit()
     conn.close()
 
+def create_admin():
+    conn = connect()
+    cursor = conn.cursor()
+
+    username = "admin"
+    password = "Admin@123"
+
+    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    try:
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", 
+                       (username, hashed))
+        conn.commit()
+    except:
+        pass  # already exists
+
+    conn.close()
 # ---------- LOGIC ---------- #
 
 def calculate_grade(p):
@@ -50,11 +78,18 @@ def login():
         username = request.form['username'].strip()
         password = request.form['password'].strip()
 
-        print("DEBUG:", username, password)  # check logs on Render
+        conn = connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+        user = cursor.fetchone()
+        conn.close()
 
-        if username == "admin" and password == "Student@2026":
-            session['user'] = "admin"
-            return redirect('/')
+        if user:
+            stored_password = user[2].encode('utf-8')
+
+            if bcrypt.checkpw(password.encode('utf-8'), stored_password):
+                session['user'] = username
+                return redirect('/')
 
         return "Invalid Credentials"
 
@@ -226,4 +261,5 @@ def topper():
 
 if __name__ == "__main__":
     init_db()
+    create_admin()
     app.run(debug=True)
