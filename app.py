@@ -3,7 +3,7 @@ import sqlite3
 import csv
 
 app = Flask(__name__)
-app.secret_key = "secret123"
+app.secret_key = "my_super_secure_key_2026"
 
 # ---------- DATABASE ---------- #
 
@@ -47,10 +47,17 @@ def calculate_grade(p):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        if request.form['username'] == "admin" and request.form['password'] == "1234":
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
+
+        print("DEBUG:", username, password)  # check logs on Render
+
+        if username == "admin" and password == "Student@2026":
             session['user'] = "admin"
             return redirect('/')
+
         return "Invalid Credentials"
+
     return render_template('login.html')
 
 @app.route('/logout')
@@ -219,5 +226,4 @@ def topper():
 
 if __name__ == "__main__":
     init_db()
-    if __name__ == "__main__":
-        app.run()
+    app.run(debug=True)
