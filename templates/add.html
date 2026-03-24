@@ -1,24 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
-    <link rel="stylesheet" href="/static/style.css">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="center">
 
-<div class="card">
-    <h2>Add Student</h2>
+<body class="bg-light">
 
-    <form method="POST">
-        <input type="text" name="name" placeholder="Student Name" required><br>
-        <input type="number" name="s1" placeholder="Subject 1 Marks" required><br>
-        <input type="number" name="s2" placeholder="Subject 2 Marks" required><br>
-        <input type="number" name="s3" placeholder="Subject 3 Marks" required><br>
-        <button type="submit">Add</button>
-    </form>
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark px-4">
+    <span class="navbar-brand">🎓 Student Management</span>
+    <div>
+        <a href="/" class="btn btn-light btn-sm">Home</a>
+        <a href="/dashboard" class="btn btn-info btn-sm">Dashboard</a>
+        <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+    </div>
+</nav>
 
-    <br>
-    <a href="/">⬅ Back</a>
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow border-0">
+                <div class="card-body">
+
+                    <h3 class="text-center mb-4">➕ Add Student</h3>
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Student Name</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="s1" class="form-label">Subject 1 Marks</label>
+                            <input type="number" id="s1" name="s1" class="form-control" placeholder="Enter marks" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="s2" class="form-label">Subject 2 Marks</label>
+                            <input type="number" id="s2" name="s2" class="form-control" placeholder="Enter marks" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="s3" class="form-label">Subject 3 Marks</label>
+                            <input type="number" id="s3" name="s3" class="form-control" placeholder="Enter marks" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Add Student</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 </body>

@@ -1,57 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
 
-<h2 style="text-align:center;">Student Dashboard</h2>
+<body class="bg-light">
 
-<div style="text-align:center;">
-    <a href="/add">➕ Add</a>
-    <a href="/export">📥 Export</a>
-    <a href="/topper">🏆 Topper</a>
-    <a href="/logout">🚪 Logout</a>
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark px-4">
+    <span class="navbar-brand">🎓 Student Management</span>
+    <div>
+        <a href="/dashboard" class="btn btn-info btn-sm">Dashboard</a>
+
+        {% if session['role'] == 'admin' %}
+        <a href="/add" class="btn btn-success btn-sm">Add Student</a>
+        {% endif %}
+
+        <a href="/export" class="btn btn-warning btn-sm">Export</a>
+        <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">📊 Student Dashboard</h2>
+
+    <!-- Search -->
+    <form method="POST" class="d-flex justify-content-center mb-4">
+        <input type="text" name="search" class="form-control w-50 me-2" placeholder="Search student...">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Table -->
+    <div class="card shadow border-0">
+        <div class="card-body">
+
+            <table class="table table-striped table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Percentage</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for s in students %}
+                    <tr>
+                        <td>{{ s[0] }}</td>
+                        <td>{{ s[1] }}</td>
+                        <td>{{ s[6] }}%</td>
+                        <td>
+                            <span class="badge 
+                                {% if s[7] == 'A' %} bg-success
+                                {% elif s[7] == 'B' %} bg-primary
+                                {% elif s[7] == 'C' %} bg-warning
+                                {% else %} bg-danger
+                                {% endif %}
+                            ">
+                                {{ s[7] }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if session['role'] == 'admin' %}
+                                <a href="/update/{{ s[0] }}" class="btn btn-sm btn-info">Edit</a>
+                                <a href="/delete/{{ s[0] }}" class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure?')">Delete</a>
+                            {% else %}
+                                <span class="text-muted">View Only</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="card mt-4 shadow border-0">
+        <div class="card-body">
+            <h5 class="text-center">📊 Student Performance</h5>
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
+
 </div>
 
-<br>
-
-<form method="POST" style="text-align:center;">
-    <input type="text" name="search" placeholder="Search student">
-    <button type="submit">Search</button>
-</form>
-
-<br>
-
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Percentage</th>
-        <th>Grade</th>
-        <th>Actions</th>
-    </tr>
-
-    {% for s in students %}
-    <tr>
-        <td>{{ s[0] }}</td>
-        <td>{{ s[1] }}</td>
-        <td>{{ s[6] }}</td>
-        <td>{{ s[7] }}</td>
-        <td>
-            <a href="/update/{{ s[0] }}">Edit</a>
-            <a href="/delete/{{ s[0] }}">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
-<br>
-
-<canvas id="chart" width="400" height="200"></canvas>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 fetch('/chart-data')
 .then(res => res.json())
@@ -62,8 +110,18 @@ fetch('/chart-data')
             labels: data.names,
             datasets: [{
                 label: 'Student Percentage',
-                data: data.percentages
+                data: data.percentages,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)'
             }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
         }
     });
 });
